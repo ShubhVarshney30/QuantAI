@@ -240,7 +240,7 @@ export default function HeroSection() {
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             Ready to Transform Your
-            <span className="handwritten gradient-text"> Financial Future</span>?
+            <span className="handwritten gradient-text"> Financial Future</span>
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
             Join thousands who've already started their journey to financial freedom
