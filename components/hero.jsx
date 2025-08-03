@@ -1,31 +1,69 @@
-// "use client"
+// "use client";
 
-// import { Button } from "./ui/button"
-// import React from 'react'
-// import Link from 'next/link'
+// import React, { useEffect, useRef } from "react";
+// import Image from "next/image";
+// import { Button } from "@/components/ui/button";
+// import Link from "next/link";
 
 // const HeroSection = () => {
-//   return (
-//     <div className='pb-20 px-4 py-16'>
-//         <div className='container mx-auto text-center'>
-//             <h1>Manage your personal expenses with ease</h1>
-//             <p>Welth is a personal finance management tool that helps you track your expenses and manage your budget.</p>
-//             <div>
-//                 <Link href="/dashboard" className="cursor-pointer">
-//                     <Button size="lg" className='mt-4'>Get Started</Button>
-//                 </Link>
-//                 <Link href="https://www.youtube.com/watch?v=egS6fnZAdzk" className="cursor-pointer">
-//                     <Button size="lg" variant="outline" className='mt-4'>watch demo</Button>
-//                 </Link>
-//             </div>
-//             {/* <div>
-//                <img src="/banner.png" alt="banner" />
-//             </div> */}
+//   const imageRef = useRef(null);
 
+//   useEffect(() => {
+//     const imageElement = imageRef.current;
+
+//     const handleScroll = () => {
+//       const scrollPosition = window.scrollY;
+//       const scrollThreshold = 100;
+
+//       if (scrollPosition > scrollThreshold) {
+//         imageElement.classList.add("scrolled");
+//       } else {
+//         imageElement.classList.remove("scrolled");
+//       }
+//     };
+
+//     window.addEventListener("scroll", handleScroll);
+//     return () => window.removeEventListener("scroll", handleScroll);
+//   }, []);
+
+//   return (
+//     <section className="pt-40 pb-20 px-4">
+//       <div className="container mx-auto text-center">
+//         <h1 className="text-5xl md:text-8xl lg:text-[105px] pb-6 gradient-title">
+//           Manage Your Finances <br /> with Intelligence
+//         </h1>
+//         <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+//           An AI-powered financial management platform that helps you track,
+//           analyze, and optimize your spending with real-time insights.
+//         </p>
+//         <div className="flex justify-center space-x-4">
+//           <Link href="/dashboard">
+//             <Button size="lg" className="px-8">
+//               Get Started
+//             </Button>
+//           </Link>
+//           <Link href="https://www.youtube.com/roadsidecoder">
+//             <Button size="lg" variant="outline" className="px-8">
+//               Watch Demo
+//             </Button>
+//           </Link>
 //         </div>
-//     </div>
-//   )
-// }   
+//         <div className="hero-image-wrapper mt-5 md:mt-0">
+//           <div ref={imageRef} className="hero-image">
+//             <Image
+//               src="/banner.jpeg"
+//               width={1280}
+//               height={720}
+//               alt="Dashboard Preview"
+//               className="rounded-lg shadow-2xl border mx-auto"
+//               priority
+//             />
+//           </div>
+//         </div>
+//       </div>
+//     </section>
+//   );
+// };
 
 // export default HeroSection;
 
@@ -106,23 +144,23 @@ export default function HeroSection() {
 
   return (
     <div className="min-h-screen overflow-hidden">
-      {/* Theme Toggle - Fixed Position */}
-      {/* <div className="fixed top-6 right-6 z-50">
-        <ThemeToggle />
-      </div> */}
-
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center px-4">
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-r from-emerald-300/30 to-teal-300/30 rounded-full organic-blob animate-pulse"></div>
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-r from-coral-300/20 to-orange-300/20 rounded-full organic-blob animate-pulse delay-1000"></div>
+      <section className="relative min-h-screen flex items-center justify-center px-4 bg-gradient-to-br from-pink-200 via-orange-100 to-cyan-100">
+        {/* Large circular element on the left */}
+        <div className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-1/2">
+          <div className="w-80 h-80 md:w-96 md:h-96 bg-gradient-to-br from-cyan-200 to-blue-300 rounded-full opacity-60"></div>
         </div>
+        
+        {/* Decorative stars */}
+        <div className="absolute top-20 right-20 text-gray-400 text-2xl">✦</div>
+        <div className="absolute top-32 right-32 text-gray-300 text-lg">✦</div>
+        <div className="absolute bottom-32 left-20 text-gray-300 text-xl">✦</div>
 
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 50 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-center max-w-4xl mx-auto"
+          className="text-center max-w-4xl mx-auto z-10"
         >
           <motion.h1
             className="text-6xl md:text-8xl font-bold mb-6"
@@ -130,20 +168,20 @@ export default function HeroSection() {
             animate={{ scale: 1 }}
             transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
           >
-            <span className="gradient-text">Fin</span>
-            <span className="handwritten text-coral-500">Verse</span>
+            <span className="text-emerald-600 font-bold">Fin</span>
+            <span className="text-orange-500 font-bold italic">Verse</span>
           </motion.h1>
 
           <motion.p
-            className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed"
+            className="text-lg md:text-xl text-gray-600 mb-8 leading-relaxed max-w-2xl mx-auto"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5, duration: 0.8 }}
           >
-            Your personal finance universe where money management becomes
-            <span className="handwritten text-emerald-600"> magical</span>,
-            <span className="handwritten text-purple-600"> educational</span>, and
-            <span className="handwritten text-coral-500"> fun</span>
+            Your personal finance universe where money management becomes{' '}
+            <span className="text-emerald-600 italic font-medium">magical</span>,{' '}
+            <span className="text-purple-600 italic font-medium">educational</span>, and{' '}
+            <span className="text-orange-500 italic font-medium">fun</span>
           </motion.p>
 
           <motion.div
@@ -153,23 +191,21 @@ export default function HeroSection() {
             className="flex flex-col sm:flex-row gap-4 justify-center items-center"
           >
             <Link href="/dashboard">
-            <Button
-              size="lg"
-              className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white px-8 py-4 text-lg rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-            //   onClick={() => router.push("/dashboard")}
+              <Button
+                size="lg"
+                className="bg-emerald-500 hover:bg-emerald-600 text-white px-8 py-3 text-lg rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
               >
-              Start Your Journey ✨
-            </Button>
+                Start Your Journey ✨
+              </Button>
             </Link>
             <Link href="https://www.youtube.com/watch?v=egS6fnZAdzk" className="cursor-pointer">
-            <Button
-              variant="outline"
-              size="lg"
-              className="border-2 border-emerald-500 text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 px-8 py-4 text-lg rounded-2xl transition-all duration-300 bg-transparent"
-              // onClick={() => router.push("/learn")}
-            >
-              Watch Demo
-            </Button>
+              <Button
+                variant="outline"
+                size="lg"
+                className="border-2 border-orange-400 text-orange-500 hover:bg-orange-50 px-8 py-3 text-lg rounded-full transition-all duration-300 bg-white/80"
+              >
+                Explore Features
+              </Button>
             </Link>
           </motion.div>
         </motion.div>
@@ -240,18 +276,20 @@ export default function HeroSection() {
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             Ready to Transform Your
-            <span className="handwritten gradient-text"> Financial Future</span>
+            <span className="handwritten gradient-text"> Financial Future</span>?
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
             Join thousands who've already started their journey to financial freedom
           </p>
+          <Link href="/dashboard">
           <Button
             size="lg"
             className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white px-12 py-6 text-xl rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-            onClick={() => router.push("/dashboard")}
+            // onClick={() => router.push("/dashboard")}
           >
             Begin Your Adventure 🚀
           </Button>
+          </Link>
         </motion.div>
       </section>
     </div>

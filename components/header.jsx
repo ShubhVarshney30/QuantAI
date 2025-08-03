@@ -1,53 +1,101 @@
-import React from 'react'
-import Link from 'next/link'
-import { Button } from './ui/button'
-import Image from 'next/image'
-import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
-import { LayoutDashboard, PenBox } from 'lucide-react';
+import React from "react";
+import { Button } from "./ui/button";
+import { LayoutDashboard, BrainCircuit, BookOpen, ChartCandlestick } from "lucide-react";
+import Link from "next/link";
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { checkUser } from "@/lib/checkUser";
+import Image from "next/image";
 
-const Header = () => {
+const Header = async () => {
+  await checkUser();
+
   return (
-    <div className='fixed top-0 w-full'>
-        <nav className='container mx-auto px-4 py-4 flex items-center justify-between'>
-            <Link href="/">
-            <Image alt="logo" src="/logo.png" height={100} width={100} className="cursor-pointer h-12 w-auto bg-white"/>
-            </Link> 
-            <div className='flex items-center gap-4'    >
-                <SignedIn className='flex items-center gap-2'>
-                    <Link href={"/dashboard"} className='text-gray-600 hover:text-blue-500'>
-                        <Button className="flex items-center gap-2">
-                            <LayoutDashboard size={18}/>
-                            <span className='hidden md:inline'>Dashboard</span>
-                        </Button>
-                    </Link>
-                    <Link href={"/transaction/create"} className='text-gray-600 hover:text-blue-500'>
-                        <Button className="flex items-center gap-2">
-                            <PenBox size={18}/>
-                            <span className='hidden md:inline'>Create Transaction</span>
-                        </Button>
-                    </Link>
-                </SignedIn>
+    <header className="fixed top-0 w-full backdrop-blur-md z-50 border-b">
+      <nav className="container mx-auto px-4 py-4 flex items-center justify-between">
+        <Link href="/">
+          <Image
+            src={"/logo.png"}
+            alt="Welth Logo"
+            width={200}
+            height={60}
+            className="h-12 w-auto object-contain"
+          />
+        </Link>
 
-                <SignedOut>
-                    <SignInButton forceRedirectUrl='/dashboard'>
-                        <Button variant="outline">Log in</Button>
-                    </SignInButton>
-                    <SignUpButton>
-                        <Button variant="outline">Sign Up</Button>
-                    </SignUpButton>
-                </SignedOut>
-                <SignedIn>
-                  <UserButton appearance={{
-                    elements:{
-                        avatarBox:"w-15 h-15",
-                    },
-                  }} 
-                  />
-                </SignedIn>
-            </div>
-        </nav>
-    </div>
-  )
-}
+        {/* Navigation Links - Different for signed in/out users */}
+        <div className="hidden md:flex items-center space-x-8">
+          {/* <SignedOut>
+            <a href="#features" className="text-gray-600 hover:text-blue-600">
+              Features
+            </a>
+            <a
+              href="#testimonials"
+              className="text-gray-600 hover:text-blue-600"
+            >
+              Testimonials
+            </a>
+          </SignedOut> */}
+        </div>
 
-export default Header
+        {/* Action Buttons */}
+        <div className="flex items-center space-x-4">
+          <SignedIn>
+            <Link
+              href="/dashboard"
+              className="text-gray-600 hover:text-blue-600 flex items-center gap-2"
+            >
+              <Button variant="outline">
+                <LayoutDashboard size={18} />
+                <span className="hidden md:inline">Dashboard</span>
+              </Button>
+            </Link>
+            {/* <a href="/transaction/create">
+              <Button className="flex items-center gap-2">
+                <PenBox size={18} />
+                <span className="hidden md:inline">Add Transaction</span>
+              </Button>
+            </a> */}
+
+            <Link href="/ai-assistant">
+              <Button className="flex items-center gap-2">
+              <BrainCircuit />
+                <span className="hidden md:inline">AI Assistant</span>
+              </Button>
+            </Link>
+
+            <Link href="/paper-trading">
+              <Button className="flex items-center gap-2">
+              <ChartCandlestick />
+                <span className="hidden md:inline">Paper Trading</span>
+              </Button>
+            </Link>
+
+            <Link href="/learning">
+              <Button className="flex items-center gap-2">
+              <BookOpen />
+                <span className="hidden md:inline">Learning</span>
+              </Button>
+            </Link>
+
+          </SignedIn>
+          <SignedOut>
+            <SignInButton forceRedirectUrl="/dashboard">
+              <Button variant="outline">Login</Button>
+            </SignInButton>
+          </SignedOut>
+          <SignedIn>
+            <UserButton
+              appearance={{
+                elements: {
+                  avatarBox: "w-10 h-10",
+                },
+              }}
+            />
+          </SignedIn>
+        </div>
+      </nav>
+    </header>
+  );
+};
+
+export default Header;
