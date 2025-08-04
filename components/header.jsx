@@ -22,7 +22,7 @@ const Header = async() => {
  
 
   return (
-    <nav className=" bg-gradient-to-br from-pink-200 via-orange-300 to-cyan-300 border-0 sticky top-0 z-40 backdrop-blur-md pt-2">
+    <nav className=" bg-gradient-to-br from-pink-200 via-orange-100 to-cyan-300 border-0 sticky top-0 z-40 backdrop-blur-md pt-2">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16  ">
         <Link href="/dashboard" className="flex items-center" aria-label="QuantAI dashboard home">
