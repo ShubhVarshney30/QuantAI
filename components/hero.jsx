@@ -191,7 +191,7 @@ export default function HeroSection() {
                 Start Your Journey ✨
               </Button>
             </Link>
-            <Link href="https://www.youtube.com/watch?v=egS6fnZAdzk" className="cursor-pointer">
+            <Link href="https://youtu.be/4Y4ZVj-TBgk?si=6-klpGBh6J9-0joh" className="cursor-pointer">
               <Button
                 variant="outline"
                 size="lg"

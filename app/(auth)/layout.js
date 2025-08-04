@@ -9,8 +9,11 @@ const AuthLayout = ({ children }) => {
     {children}
     <div className="border border-gray-200 p-4 rounded-lg ">
       <h1>sample login credentials for better ui:</h1>
-      <p>email: mendiscleo@gmail.com</p>
-      <p>password: mendiscleo</p>
+   
+      email: mendiscleo@gmail.com
+      <br />
+      password: mendiscleo
+      
     </div>
     </div>
     
