@@ -89,45 +89,14 @@
    yarn install
    ```
 
-3. Set up environment variables:
-   Create a `.env` file in the root directory with the following variables:
-   ```env
-   # Database
-   DATABASE_URL="postgresql://user:password@localhost:5432/quantai?schema=public"
-   DIRECT_URL="postgresql://user:password@localhost:5432/quantai?schema=public"
-   
-   # Authentication (Clerk)
-   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
-   CLERK_SECRET_KEY=your_clerk_secret_key
-   NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
-   NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
-   NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/dashboard
-   NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/onboarding
-   
-   # AI (Google Gemini)
-   GEMINI_API_KEY=your_gemini_api_key
-   
-   # Email (Resend)
-   RESEND_API_KEY=your_resend_api_key
-   
-   # Security (ArcJet)
-   ARCJET_KEY=your_arcjet_key
-   ```
-
-4. Set up the database:
-   ```bash
-   npx prisma generate
-   npx prisma db push
-   ```
-
-5. Run the development server:
+3. Run the development server:
    ```bash
    npm run dev
    # or
    yarn dev
    ```
 
-6. Open [http://localhost:3000](http://localhost:3000) in your browser.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## 🏗️ Project Structure
 
