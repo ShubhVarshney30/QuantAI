@@ -172,12 +172,12 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## 📧 Contact
 
-Your Name - [@your_twitter](https://twitter.com/your_username) - your.email@example.com
+Email - varshneyshubhv@gmail.com
 
-Project Link: [https://github.com/yourusername/quantai](https://github.com/yourusername/quantai)
+Project Link: [https://github.com/ShubhVarshney30/QuantAI](https://github.com/ShubhVarshney30/QuantAI)
 
 ---
 
 <div align="center">
-  Made with ❤️ by Your Name
+  Made with ❤️ by Shubh Varshney
 </div>
