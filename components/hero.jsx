@@ -71,11 +71,9 @@
 
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import Link from 'next/link'
 import { Card } from "@/components/ui/card"
-// import { ThemeToggle } from "@/components/ui/theme-toggle"
 import {
   SparklesIcon,
   ChartBarIcon,
@@ -98,12 +96,7 @@ const features = [
     description: "Get personalized financial advice that understands your mood",
     color: "from-purple-400 to-pink-500",
   },
-  {
-    icon: CurrencyDollarIcon,
-    title: "Investment Simulator",
-    description: "Practice investing with virtual money and compete with friends",
-    color: "from-orange-400 to-red-500",
-  },
+
   {
     icon: AcademicCapIcon,
     title: "Learn & Grow",
@@ -127,7 +120,7 @@ const features = [
 export default function HeroSection() {
   const [isLoaded, setIsLoaded] = useState(false)
   const [mounted, setMounted] = useState(false)
-  const router = useRouter()
+
 
   useEffect(() => {
     setMounted(true)
@@ -168,8 +161,8 @@ export default function HeroSection() {
             animate={{ scale: 1 }}
             transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
           >
-            <span className="text-emerald-600 font-bold">Fin</span>
-            <span className="text-orange-500 font-bold italic">Verse</span>
+            <span className="text-emerald-600 font-bold">Quant</span>
+            <span className="text-orange-500 font-bold italic">AI</span>
           </motion.h1>
 
           <motion.p
@@ -222,7 +215,7 @@ export default function HeroSection() {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Why <span className="handwritten gradient-text">FinVerse</span> is Different
+              Why <span className="handwritten gradient-text">QuantAI</span> is Different
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
               We believe finance should be approachable, engaging, and empowering. Every feature is crafted with love
@@ -279,7 +272,7 @@ export default function HeroSection() {
             <span className="handwritten gradient-text"> Financial Future</span>?
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
-            Join thousands who've already started their journey to financial freedom
+            Join thousands who have already started their journey to financial freedom
           </p>
           <Link href="/dashboard">
           <Button

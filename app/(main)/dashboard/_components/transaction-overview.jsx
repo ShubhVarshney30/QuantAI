@@ -7,7 +7,6 @@ import {
   Cell,
   ResponsiveContainer,
   Tooltip,
-  Legend,
 } from "recharts";
 import { format } from "date-fns";
 import { ArrowUpRight, ArrowDownRight } from "lucide-react";
@@ -20,7 +19,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
 
 const COLORS = [
   "#FF6B6B",
@@ -77,64 +75,97 @@ export function DashboardOverview({ accounts, transactions }) {
   );
 
   return (
-    <div className="grid gap-4 md:grid-cols-2">
+    <div className="grid gap-6 md:grid-cols-2">
       {/* Recent Transactions Card */}
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
-          <CardTitle className="text-base font-normal">
-            Recent Transactions
-          </CardTitle>
-          <Select
-            value={selectedAccountId}
-            onValueChange={setSelectedAccountId}
-          >
-            <SelectTrigger className="w-[140px]">
-              <SelectValue placeholder="Select account" />
-            </SelectTrigger>
-            <SelectContent>
-              {accounts.map((account) => (
-                <SelectItem key={account.id} value={account.id}>
-                  {account.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+      <Card className="relative overflow-hidden bg-gradient-to-br from-white via-green-50 to-emerald-50 dark:from-gray-900 dark:via-green-950/20 dark:to-emerald-950/10 border-0 ring-1 ring-gray-200 dark:ring-gray-700 hover:shadow-xl hover:shadow-green-500/10 transition-all duration-300">
+        {/* Decorative Background */}
+        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-green-400/10 to-emerald-500/10 rounded-full -translate-y-16 translate-x-16"></div>
+        <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-teal-400/10 to-cyan-500/10 rounded-full translate-y-12 -translate-x-12"></div>
+        
+        <CardHeader className="relative z-10 pb-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center">
+                <span className="text-white text-lg">📊</span>
+              </div>
+              <div>
+                <CardTitle className="text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
+                  Recent Transactions
+                </CardTitle>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                  Latest financial activity
+                </p>
+              </div>
+            </div>
+            <Select
+              value={selectedAccountId}
+              onValueChange={setSelectedAccountId}
+            >
+              <SelectTrigger className="w-[160px] border-2 hover:border-green-400 dark:hover:border-green-500 transition-colors">
+                <SelectValue placeholder="Select account" />
+              </SelectTrigger>
+              <SelectContent>
+                {accounts.map((account) => (
+                  <SelectItem key={account.id} value={account.id}>
+                    {account.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </CardHeader>
-        <CardContent>
+        
+        <CardContent className="relative z-10">
           <div className="space-y-4">
             {recentTransactions.length === 0 ? (
-              <p className="text-center text-muted-foreground py-4">
-                No recent transactions
-              </p>
+              <div className="text-center py-8">
+                <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-gray-400 to-gray-500 rounded-full flex items-center justify-center">
+                  <span className="text-2xl">💳</span>
+                </div>
+                <p className="text-gray-600 dark:text-gray-400 font-medium">
+                  No recent transactions
+                </p>
+                <p className="text-sm text-gray-500 dark:text-gray-500 mt-1">
+                  Transactions will appear here once you start using this account
+                </p>
+              </div>
             ) : (
               recentTransactions.map((transaction) => (
                 <div
                   key={transaction.id}
-                  className="flex items-center justify-between"
+                  className="group flex items-center justify-between p-4 bg-white/60 dark:bg-gray-800/60 rounded-lg hover:bg-white dark:hover:bg-gray-800 transition-all duration-200 hover:shadow-md"
                 >
-                  <div className="space-y-1">
-                    <p className="text-sm font-medium leading-none">
-                      {transaction.description || "Untitled Transaction"}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      {format(new Date(transaction.date), "PP")}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div
-                      className={cn(
-                        "flex items-center",
-                        transaction.type === "EXPENSE"
-                          ? "text-red-500"
-                          : "text-green-500"
-                      )}
-                    >
+                  <div className="flex items-center space-x-4">
+                    <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                      transaction.type === "EXPENSE"
+                        ? "bg-gradient-to-r from-red-500 to-pink-600"
+                        : "bg-gradient-to-r from-green-500 to-emerald-600"
+                    }`}>
                       {transaction.type === "EXPENSE" ? (
-                        <ArrowDownRight className="mr-1 h-4 w-4" />
+                        <ArrowDownRight className="h-5 w-5 text-white" />
                       ) : (
-                        <ArrowUpRight className="mr-1 h-4 w-4" />
+                        <ArrowUpRight className="h-5 w-5 text-white" />
                       )}
-                      ${transaction.amount.toFixed(2)}
+                    </div>
+                    <div className="space-y-1">
+                      <p className="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                        {transaction.description || "Untitled Transaction"}
+                      </p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        {format(new Date(transaction.date), "PPP")}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className={`text-lg font-bold ${
+                      transaction.type === "EXPENSE"
+                        ? "text-red-600 dark:text-red-400"
+                        : "text-green-600 dark:text-green-400"
+                    }`}>
+                      {transaction.type === "EXPENSE" ? "-" : "+"}${transaction.amount.toFixed(2)}
+                    </div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400 mt-1 capitalize">
+                      {transaction.category || "General"}
                     </div>
                   </div>
                 </div>
@@ -145,48 +176,94 @@ export function DashboardOverview({ accounts, transactions }) {
       </Card>
 
       {/* Expense Breakdown Card */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base font-normal">
-            Monthly Expense Breakdown
-          </CardTitle>
+      <Card className="relative overflow-hidden bg-gradient-to-br from-white via-purple-50 to-indigo-50 dark:from-gray-900 dark:via-purple-950/20 dark:to-indigo-950/10 border-0 ring-1 ring-gray-200 dark:ring-gray-700 hover:shadow-xl hover:shadow-purple-500/10 transition-all duration-300">
+        {/* Decorative Background */}
+        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-400/10 to-indigo-500/10 rounded-full -translate-y-16 translate-x-16"></div>
+        <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-pink-400/10 to-purple-500/10 rounded-full translate-y-12 -translate-x-12"></div>
+        
+        <CardHeader className="relative z-10">
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-600 rounded-full flex items-center justify-center">
+              <span className="text-white text-lg">📈</span>
+            </div>
+            <div>
+              <CardTitle className="text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
+                Monthly Expense Breakdown
+              </CardTitle>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                Spending by category this month
+              </p>
+            </div>
+          </div>
         </CardHeader>
-        <CardContent className="p-0 pb-5">
+        
+        <CardContent className="relative z-10 p-6">
           {pieChartData.length === 0 ? (
-            <p className="text-center text-muted-foreground py-4">
-              No expenses this month
-            </p>
+            <div className="text-center py-8">
+              <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-purple-500 to-indigo-600 rounded-full flex items-center justify-center">
+                <span className="text-2xl">📊</span>
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                No Expenses This Month
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400">
+                Start making transactions to see your spending breakdown
+              </p>
+            </div>
           ) : (
-            <div className="h-[300px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={pieChartData}
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={80}
-                    fill="#8884d8"
-                    dataKey="value"
-                    label={({ name, value }) => `${name}: $${value.toFixed(2)}`}
-                  >
-                    {pieChartData.map((entry, index) => (
-                      <Cell
-                        key={`cell-${index}`}
-                        fill={COLORS[index % COLORS.length]}
-                      />
-                    ))}
-                  </Pie>
-                  <Tooltip
-                    formatter={(value) => `$${value.toFixed(2)}`}
-                    contentStyle={{
-                      backgroundColor: "hsl(var(--popover))",
-                      border: "1px solid hsl(var(--border))",
-                      borderRadius: "var(--radius)",
-                    }}
-                  />
-                  <Legend />
-                </PieChart>
-              </ResponsiveContainer>
+            <div className="space-y-4">
+              <div className="h-[280px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={pieChartData}
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={90}
+                      fill="#8884d8"
+                      dataKey="value"
+                      label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                      labelLine={false}
+                    >
+                      {pieChartData.map((entry, index) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={COLORS[index % COLORS.length]}
+                        />
+                      ))}
+                    </Pie>
+                    <Tooltip
+                      formatter={(value) => [`$${value.toFixed(2)}`, "Amount"]}
+                      contentStyle={{
+                        backgroundColor: "hsl(var(--popover))",
+                        border: "1px solid hsl(var(--border))",
+                        borderRadius: "var(--radius)",
+                        boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1)",
+                      }}
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+              
+              {/* Category Legend */}
+              <div className="grid grid-cols-2 gap-2 mt-4">
+                {pieChartData.map((entry, index) => (
+                  <div key={entry.name} className="flex items-center space-x-2 p-2 bg-white/60 dark:bg-gray-800/60 rounded-lg">
+                    <div 
+                      className="w-3 h-3 rounded-full" 
+                      style={{ backgroundColor: COLORS[index % COLORS.length] }}
+                    ></div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
+                        {entry.name}
+                      </p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                        ${entry.value.toFixed(2)}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
         </CardContent>

@@ -1,82 +1,52 @@
+// "use client"
+
 import React from "react";
+
+
+import Lightbox from "./light-box";
 import { Button } from "./ui/button";
-import { LayoutDashboard, BrainCircuit, BookOpen, ChartCandlestick } from "lucide-react";
 import Link from "next/link";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { checkUser } from "@/lib/checkUser";
 import Image from "next/image";
+import Mobilebar from "./mobilemen";
+// import { motion } from "framer-motion";
+// import { usePathname } from "next/navigation";
+// import { ChartBarIcon, ChatBubbleLeftRightIcon, CurrencyDollarIcon, AcademicCapIcon } from "lucide-react";
 
-const Header = async () => {
+
+const Header = async() => {
+
   await checkUser();
+  // const pathname = usePathname();
+ 
 
   return (
-    <header className="fixed top-0 w-full backdrop-blur-md z-50 border-b">
-      <nav className="container mx-auto px-4 py-4 flex items-center justify-between">
-        <Link href="/">
+    <nav className=" bg-gradient-to-br from-pink-200 via-orange-300 to-cyan-300 border-0 sticky top-0 z-40 backdrop-blur-md pt-2">
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-between h-16  ">
+        <Link href="/dashboard" className="flex items-center" aria-label="QuantAI dashboard home">
           <Image
-            src={"/logo.png"}
-            alt="Welth Logo"
+            src="/logo.png"
+            alt="QuantAI Logo"
             width={200}
             height={60}
-            className="h-12 w-auto object-contain"
+            className="h-16 w-auto object-contain"
           />
+          <div className="flex items-center">
+            <span className="text-emerald-600 font-bold text-2xl mr-1">Quant</span>
+            <span className="text-orange-500 font-bold italic text-2xl">AI</span>
+          </div>
         </Link>
 
         {/* Navigation Links - Different for signed in/out users */}
-        <div className="hidden md:flex items-center space-x-8">
-          {/* <SignedOut>
-            <a href="#features" className="text-gray-600 hover:text-blue-600">
-              Features
-            </a>
-            <a
-              href="#testimonials"
-              className="text-gray-600 hover:text-blue-600"
-            >
-              Testimonials
-            </a>
-          </SignedOut> */}
-        </div>
+      
 
         {/* Action Buttons */}
-        <div className="flex items-center space-x-4">
-          <SignedIn>
-            <Link
-              href="/dashboard"
-              className="text-gray-600 hover:text-blue-600 flex items-center gap-2"
-            >
-              <Button variant="outline">
-                <LayoutDashboard size={18} />
-                <span className="hidden md:inline">Dashboard</span>
-              </Button>
-            </Link>
-            {/* <a href="/transaction/create">
-              <Button className="flex items-center gap-2">
-                <PenBox size={18} />
-                <span className="hidden md:inline">Add Transaction</span>
-              </Button>
-            </a> */}
-
-            <Link href="/ai-assistant">
-              <Button className="flex items-center gap-2">
-              <BrainCircuit />
-                <span className="hidden md:inline">AI Assistant</span>
-              </Button>
-            </Link>
-
-            <Link href="/paper-trading">
-              <Button className="flex items-center gap-2">
-              <ChartCandlestick />
-                <span className="hidden md:inline">Paper Trading</span>
-              </Button>
-            </Link>
-
-            <Link href="/learning">
-              <Button className="flex items-center gap-2">
-              <BookOpen />
-                <span className="hidden md:inline">Learning</span>
-              </Button>
-            </Link>
-
+        <div className="flex items-center justify-center space-x-4">
+          <SignedIn className="flex items-center justify-center space-x-4">
+          <Lightbox />
+          <Mobilebar />
           </SignedIn>
           <SignedOut>
             <SignInButton forceRedirectUrl="/dashboard">
@@ -91,10 +61,13 @@ const Header = async () => {
                 },
               }}
             />
+            
           </SignedIn>
         </div>
-      </nav>
-    </header>
+      </div>
+      </div>
+    </nav>
+    
   );
 };
 

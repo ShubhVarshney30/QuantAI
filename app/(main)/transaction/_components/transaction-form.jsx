@@ -1,13 +1,14 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CalendarIcon, Loader2 } from "lucide-react";
+import { CalendarIcon, Loader2, DollarSign, TrendingUp, TrendingDown, Sparkles } from "lucide-react";
 import { format } from "date-fns";
 import { useRouter, useSearchParams } from "next/navigation";
 import useFetch from "@/hooks/use-fetch";
 import { toast } from "sonner";
+import { motion, AnimatePresence } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -128,30 +129,128 @@ export function AddTransactionForm({
     (category) => category.type === type
   );
 
-  return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      {/* Receipt Scanner - Only show in create mode */}
-      {!editMode && <ReceiptScanner onScanComplete={handleScanComplete} />}
+  const [focusedField, setFocusedField] = useState(null);
+  const [formProgress, setFormProgress] = useState(0);
 
-      {/* Type */}
-      <div className="space-y-2">
-        <label className="text-sm font-medium">Type</label>
-        <Select
-          onValueChange={(value) => setValue("type", value)}
-          defaultValue={type}
+  // Calculate form completion progress
+  useEffect(() => {
+    const values = getValues();
+    const requiredFields = ['type', 'amount', 'description', 'accountId', 'category', 'date'];
+    const completedFields = requiredFields.filter(field => {
+      const value = values[field];
+      return value && value !== '' && value !== null && value !== undefined;
+    }).length;
+    setFormProgress((completedFields / requiredFields.length) * 100);
+  }, [watch(), getValues]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      className="relative"
+    >
+      {/* Progress Bar */}
+      <motion.div
+        initial={{ width: 0 }}
+        animate={{ width: '100%' }}
+        className="absolute -top-2 left-0 h-1 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded-full overflow-hidden"
+      >
+        <motion.div
+          initial={{ width: 0 }}
+          animate={{ width: `${formProgress}%` }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full"
+        />
+      </motion.div>
+
+      <motion.form
+        onSubmit={handleSubmit(onSubmit)}
+        className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-3xl p-8 shadow-2xl border border-white/20 dark:border-gray-700/20 space-y-8"
+        whileHover={{ boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.15)" }}
+        transition={{ duration: 0.3 }}
+      >
+        {/* Floating Decoration */}
+        <div className="absolute -top-4 -right-4 w-8 h-8 bg-gradient-to-r from-indigo-400 to-purple-400 rounded-full opacity-60 animate-pulse" />
+        <div className="absolute -bottom-2 -left-2 w-6 h-6 bg-gradient-to-r from-pink-400 to-rose-400 rounded-full opacity-40 animate-bounce" />
+
+        {/* Receipt Scanner - Only show in create mode */}
+        <AnimatePresence>
+          {!editMode && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.4 }}
+            >
+              <ReceiptScanner onScanComplete={handleScanComplete} />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Type Selection */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="space-y-3"
         >
-          <SelectTrigger>
-            <SelectValue placeholder="Select type" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="EXPENSE">Expense</SelectItem>
-            <SelectItem value="INCOME">Income</SelectItem>
-          </SelectContent>
-        </Select>
-        {errors.type && (
-          <p className="text-sm text-red-500">{errors.type.message}</p>
-        )}
-      </div>
+          <label className="text-sm font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-indigo-500" />
+            Transaction Type
+          </label>
+          <div className="grid grid-cols-2 gap-4">
+            <motion.button
+              type="button"
+              onClick={() => setValue("type", "EXPENSE")}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className={`p-4 rounded-2xl border-2 transition-all duration-300 ${
+                type === "EXPENSE"
+                  ? "border-red-500 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300"
+                  : "border-gray-200 dark:border-gray-700 hover:border-red-300 dark:hover:border-red-600"
+              }`}
+            >
+              <div className="flex items-center justify-center space-x-2">
+                <TrendingDown className={`w-5 h-5 ${
+                  type === "EXPENSE" ? "text-red-500" : "text-gray-400"
+                }`} />
+                <span className="font-medium">Expense</span>
+              </div>
+            </motion.button>
+            <motion.button
+              type="button"
+              onClick={() => setValue("type", "INCOME")}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className={`p-4 rounded-2xl border-2 transition-all duration-300 ${
+                type === "INCOME"
+                  ? "border-green-500 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300"
+                  : "border-gray-200 dark:border-gray-700 hover:border-green-300 dark:hover:border-green-600"
+              }`}
+            >
+              <div className="flex items-center justify-center space-x-2">
+                <TrendingUp className={`w-5 h-5 ${
+                  type === "INCOME" ? "text-green-500" : "text-gray-400"
+                }`} />
+                <span className="font-medium">Income</span>
+              </div>
+            </motion.button>
+          </div>
+          <AnimatePresence>
+            {errors.type && (
+              <motion.span
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="text-red-500 text-sm flex items-center gap-1"
+              >
+                <span className="w-1 h-1 bg-red-500 rounded-full" />
+                {errors.type.message}
+              </motion.span>
+            )}
+          </AnimatePresence>
+        </motion.div>
 
       {/* Amount and Account */}
       <div className="grid gap-6 md:grid-cols-2">
@@ -327,6 +426,7 @@ export function AddTransactionForm({
           )}
         </Button>
       </div>
-    </form>
+      </motion.form>
+    </motion.div>
   );
 }

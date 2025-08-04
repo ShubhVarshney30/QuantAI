@@ -2,10 +2,14 @@ import arcjet, { createMiddleware, detectBot, shield } from "@arcjet/next";
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
+
 const isProtectedRoute = createRouteMatcher([
   "/dashboard(.*)",
   "/account(.*)",
   "/transaction(.*)",
+  "/ai-assistant(.*)",
+  "/learning(.*)",
+  "/simulator(.*)",
 ]);
 
 // Create Arcjet middleware
