@@ -11,11 +11,11 @@ export function LoadingScreen() {
   useEffect(() => {
     const loadingTexts = [
       "Loading world...",
-      "Generating quests...",
-      "Calculating rewards...",
+      "Generating quant...",
+      "Calculating finance...",
       "Preparing adventure...",
       "Almost ready...",
-    ];
+    ]; 
 
     const interval = setInterval(() => {
       setProgress((prev) => {
