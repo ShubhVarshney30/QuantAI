@@ -197,7 +197,7 @@ export default function HeroSection() {
                 size="lg"
                 className="border-2 border-orange-400 text-orange-500 hover:bg-orange-50 px-8 py-3 text-lg rounded-full transition-all duration-300 bg-white/80"
               >
-                Explore Features
+                Watch Demo
               </Button>
             </Link>
           </motion.div>
