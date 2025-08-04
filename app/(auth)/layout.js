@@ -4,9 +4,16 @@ const AuthLayout = ({ children }) => {
   <div className="absolute inset-0 overflow-hidden">
     <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-emerald-300/20 to-teal-300/20 rounded-full organic-blob animate-pulse"></div>
     <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-r from-purple-300/20 to-pink-300/20 rounded-full organic-blob animate-pulse delay-1000"></div>
-  </div>
-
+  </div >
+  <div>
     {children}
+    <div className="border border-gray-200 p-4 rounded-lg ">
+      <h1>sample login credentials for better ui:</h1>
+      <p>email: mendiscleo@gmail.com</p>
+      <p>password: mendiscleo</p>
+    </div>
+    </div>
+    
     
     </div>;
 };
